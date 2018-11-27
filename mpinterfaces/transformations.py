@@ -239,10 +239,10 @@ def get_matching_lattices(iface1, iface2, max_area=100,
         print('u,v & angle mismatches:\n{0}, {1}, {2}\n'.format(uv_opt[3],
                                                                 uv_opt[4],
                                                                 uv_opt[5]))
-        return uv_opt[0], uv_opt[1]
+        return uv_opt[0], uv_opt[1], [uv_opt[3], uv_opt[4], uv_opt[5]]
     else:
         print('\n NO MATCH FOUND')
-        return None, None
+        return None, None,[None,None,None]
 
 
 def get_uniq_layercoords(struct, nlayers, top=True):
@@ -355,7 +355,7 @@ def get_aligned_lattices(slab_sub, slab_2d, max_area=200,
     other
     """
     # get the matching substrate and 2D material lattices
-    uv_substrate, uv_mat2d = get_matching_lattices(slab_sub, slab_2d,
+    uv_substrate, uv_mat2d ,mismatch= get_matching_lattices(slab_sub, slab_2d,
                                                    max_area=max_area,
                                                    max_mismatch=max_mismatch,
                                                    max_angle_diff=max_angle_diff,
@@ -406,4 +406,4 @@ def get_aligned_lattices(slab_sub, slab_2d, max_area=200,
             mat2d.lattice.matrix[2, :]
         ]))
     mat2d.modify_lattice(lmap)
-    return substrate, mat2d
+    return substrate, mat2d,mismatch
